@@ -17,12 +17,12 @@
 		
 		<form method="post" action="userLogin.jsp">
 			Username
-			<input type="text" name="username"/>
+			<input type="text" name="username" maxlength="50"/>
 			<br>
 			Password
-			<input type="text" name="password"/>
+			<input type="password" name="password" maxlength="50"/>
 			<br>
-			<input name="button_clicked" type="submit" value="login" />
+			<input name="button_clicked" type="submit" value="login"/>
 			<input name="button_clicked" type="submit" value="register"/>
 			
 		</form>

@@ -45,9 +45,6 @@
 			<form method="post" action="loginPage.jsp">
 				<input name="return" type="submit" value="return to login page"/>
 			</form>
-			
-			
-			
 			<%
 		} else {
 			ResultSet result = stmt.executeQuery("SELECT * FROM accounts WHERE (mem_name = '" + username + "' and password = '" + password + "')");
@@ -58,14 +55,44 @@
 					out.println("You have entered in invalid credentials for the user, " + username + ". Please try again.");
 				}
 			} else {
+				request.getSession().setAttribute("userName", username);
 				out.println("Now logged in as " + result.getString("mem_name") + ".");
+				%>
+				
+				<form method="post" action="startAuction.jsp">
+					<input name="button_clicked" type="submit" value="List Item"/>
+				</form>
+				
+				<form method="post" action="loginPage.jsp">
+				<input name="return" type="submit" value="return to login page"/>
+				</form>
+				
+				<ul>
+				<%
+				
+				result = stmt.executeQuery("SELECT * FROM auctions a, items i WHERE a.endDate >= '" + new Timestamp(System.currentTimeMillis()) + "' AND a.item_id = i.item_id;");
+				
+				while (result.next()){
+					%>
+					<li>		
+						<form method="post" action="viewItem.jsp">
+							<% 
+							out.println(result.getString("title") + '-');
+							out.println(result.getString("description"));
+							String item_id = result.getString("item_id");
+							%>
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					</li>
+					<%
+				}
+				%>
+				</ul>
+				<%
 			}
 			
-			%>
-			<form method="post" action="loginPage.jsp">
-				<input name="return" type="submit" value="return to login page"/>
-			</form>
-			<%
+			
 			
 		}
    	%>
