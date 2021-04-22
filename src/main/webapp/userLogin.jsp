@@ -15,8 +15,7 @@
 	
 
 	<% try {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+			
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 			Statement stmt = con.createStatement();
@@ -26,6 +25,8 @@
    		String status = request.getParameter("button_clicked");
 		
 		if (status.equals("register")){
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
 			// sql logic for registering the user	
 
 			//Create a SQL statement
@@ -47,7 +48,17 @@
 			</form>
 			<%
 		} else {
-			ResultSet result = stmt.executeQuery("SELECT * FROM accounts WHERE (mem_name = '" + username + "' and password = '" + password + "')");
+			String username = null;
+			String password = null;
+			ResultSet result = null;
+			if (status.equals("login")){
+				username = request.getParameter("username");
+				password = request.getParameter("password");
+				result = stmt.executeQuery("SELECT * FROM accounts WHERE (mem_name = '" + username + "' and password = '" + password + "')");
+			} else {
+				username = (String) request.getSession().getAttribute("userName");
+				result = stmt.executeQuery("SELECT * FROM accounts WHERE mem_name = '" + username + "'");
+			}
 			if (result.next() == false){
 				if (stmt.executeQuery("SELECT * FROM accounts WHERE (mem_name = '" + username + "')").next() == false){
 					out.println("The user " + username + "does not exist. Please register for a new account.");
@@ -55,6 +66,9 @@
 					out.println("You have entered in invalid credentials for the user, " + username + ". Please try again.");
 				}
 			} else {
+				if (status.equals("login")){
+					
+				}
 				request.getSession().setAttribute("userName", username);
 				out.println("Now logged in as " + result.getString("mem_name") + ".");
 				%>

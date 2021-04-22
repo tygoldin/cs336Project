@@ -183,6 +183,9 @@
 	<form method="post" action="loginPage.jsp">
 		<input name="return" type="submit" value="return to login page"/>
 	</form>
+	<form method="post" action="userLogin.jsp">
+			<input name="button_clicked" type="submit" value="Return to Listings"/>
+	</form>
 	
 </body>
 </html>
