@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
-<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@ page import="javax.servlet.http.*,javax.servlet.*,java.text.SimpleDateFormat,java.util.Date" %>
+<%@include file="timerAuction.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +18,7 @@
 	String item_id = request.getParameter("item_id");
 	String status = request.getParameter("button_clicked");
 	
-	
+	checkAuctions();
 	try{
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
@@ -145,15 +146,31 @@
 		out.println("Auction End: " + result.getString("endDate") + "<br />");
 		String bid_increment = result.getString("bid_increment");
 		
-		result.close();
-		
-		ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids);");
-		if(bidderResult.next()){
-			String bid_price = bidderResult.getString("bid_amount");
-			out.println("Current Bid: $" + bid_price + " ");
-			out.println("Current Bidder: " + bidderResult.getString("mem_name") + "<br />");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        Date date = sdf.parse(result.getString("endDate"));
+		if(System.currentTimeMillis() > date.getTime()){
+			Statement stmt2 = con.createStatement();
+			ResultSet buyerResult = stmt2.executeQuery("Select * FROM buys where item_id = " + result.getString("item_id") +  ";");
+			while(buyerResult.next()){
+				if (buyerResult.getString("mem_name").equals(result.getString("mem_name"))){
+					out.println("No bidder had met the minumum price." + "<br />");
+				} else {
+					out.println("Item purchased by: " + buyerResult.getString("mem_name") + " for $" + buyerResult.getString("price") + "<br />");
+				}
+			}
+			
 		} else {
-			out.println("Current Bid: No bids yet" + "<br />");
+			
+			ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids);");
+			if(bidderResult.next()){
+				String bid_price = bidderResult.getString("bid_amount");
+				out.println("Current Bid: $" + bid_price + " ");
+				out.println("Current Bidder: " + bidderResult.getString("mem_name") + "<br />");
+			} else {
+				out.println("Current Bid: No bids yet" + "<br />");
+			}
 		}
 		
 		

@@ -84,7 +84,7 @@
 				<ul>
 				<%
 				
-				result = stmt.executeQuery("SELECT * FROM auctions a, items i WHERE a.endDate >= '" + new Timestamp(System.currentTimeMillis()) + "' AND a.item_id = i.item_id;");
+				result = stmt.executeQuery("SELECT * FROM auctions a, items i WHERE a.item_id = i.item_id;");
 				
 				while (result.next()){
 					%>
