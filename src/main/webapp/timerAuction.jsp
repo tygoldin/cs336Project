@@ -23,7 +23,7 @@
 			Statement stmt2 = con.createStatement();
 			String item_return = "";
 			
-			ResultSet result = stmt.executeQuery("SELECT * FROM auctions LEFT OUTER JOIN buys ON auctions.item_id = buys.item_id WHERE buys.item_id IS NULL AND '" + new Timestamp(System.currentTimeMillis()) + "' > auctions.endDate;");
+			ResultSet result = stmt.executeQuery("SELECT * FROM auctions LEFT OUTER JOIN buys ON auctions.item_id = buys.item_id WHERE buys.item_id IS NULL AND '" + new Timestamp(System.currentTimeMillis()) + "' >= auctions.endDate;");
 			while (result.next()){
 				ResultSet bidderResult = stmt2.executeQuery("SELECT * FROM bids WHERE item_id = " + result.getString("item_id") + " and bid_amount in (select MAX(bid_amount) from bids);");
 				while (bidderResult.next()){

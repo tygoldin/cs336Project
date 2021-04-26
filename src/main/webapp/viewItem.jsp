@@ -152,15 +152,14 @@
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         Date date = sdf.parse(result.getString("endDate"));
-		if(System.currentTimeMillis() > date.getTime()){
-			Statement stmt2 = con.createStatement();
-			ResultSet buyerResult = stmt2.executeQuery("Select * FROM buys where item_id = " + result.getString("item_id") +  ";");
-			while(buyerResult.next()){
-				if (buyerResult.getString("mem_name").equals(result.getString("mem_name"))){
-					out.println("No bidder had met the minumum price." + "<br />");
-				} else {
-					out.println("Item purchased by: " + buyerResult.getString("mem_name") + " for $" + buyerResult.getString("price") + "<br />");
-				}
+        Statement stmt2 = con.createStatement();
+		ResultSet buyerResult = stmt2.executeQuery("Select * FROM buys where item_id = " + result.getString("item_id") +  ";");
+		
+		if(buyerResult.next()){
+			if (buyerResult.getString("mem_name").equals(result.getString("mem_name"))){
+				out.println("No bidder had met the minumum price." + "<br />");
+			} else {
+				out.println("Item purchased by: " + buyerResult.getString("mem_name") + " for $" + buyerResult.getString("price") + "<br />");
 			}
 			
 		} else {
