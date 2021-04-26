@@ -42,8 +42,8 @@
 				field2 = request.getParameter("cat2field2");
 				category = "category2";
 			} else if (category3){
-				field1 = request.getParameter("cat2field1");
-				field2 = request.getParameter("cat2field2");
+				field1 = request.getParameter("cat3field1");
+				field2 = request.getParameter("cat3field2");
 				category = "category3";
 			}
 			if (field1.length() == 0 || field2.length() == 0){

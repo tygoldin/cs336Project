@@ -208,21 +208,22 @@
 				}
 				Collections.sort(items,new Comparator<String[]>() {
 		            public int compare(String[] strings, String[] otherStrings) {
-		                return strings[1].compareTo(otherStrings[1]);
+		            	return otherStrings[1].compareTo(strings[1]);
 		            }
 		        });
 				String type1="N/A", type2="N/A", type3="N/A", value1="0", value2="0", value3="0";
+				//System.out.println(items.size());
 				if(items.size()>=1){
 					type1=items.get(0)[0];
 					value1=items.get(0)[1];
 				}
 				if(items.size()>=2){
-					type1=items.get(1)[0];
-					value1=items.get(1)[1];
+					type2=items.get(1)[0];
+					value2=items.get(1)[1];
 				}
 				if(items.size()>=3){
-					type1=items.get(2)[0];
-					value1=items.get(2)[1];
+					type3=items.get(2)[0];
+					value3=items.get(2)[1];
 				}
 				String update="insert into best_selling (report_id, item_or_user, type1, type2, type3, value1, value2, value3) values ('"+rid+"', 'item', '"+ type1 +"', '"+ type2 +"', '"+ type3 +"', '"+ value1 +"', '"+ value2 +"', '"+ value3 +"');";
 				System.out.println(update);
@@ -267,7 +268,7 @@
 				}
 				Collections.sort(items,new Comparator<String[]>() {
 		            public int compare(String[] strings, String[] otherStrings) {
-		                return strings[1].compareTo(otherStrings[1]);
+		                return otherStrings[1].compareTo(strings[1]);
 		            }
 		        });
 				String type1="N/A", type2="N/A", type3="N/A", value1="0", value2="0", value3="0";
@@ -276,12 +277,12 @@
 					value1=items.get(0)[1];
 				}
 				if(items.size()>=2){
-					type1=items.get(1)[0];
-					value1=items.get(1)[1];
+					type2=items.get(1)[0];
+					value2=items.get(1)[1];
 				}
 				if(items.size()>=3){
-					type1=items.get(2)[0];
-					value1=items.get(2)[1];
+					type3=items.get(2)[0];
+					value3=items.get(2)[1];
 				}
 				String update="insert into best_selling (report_id, item_or_user, type1, type2, type3, value1, value2, value3) values ('"+rid+"', 'user', '"+ type1 +"', '"+ type2 +"', '"+ type3 +"', '"+ value1 +"', '"+ value2 +"', '"+ value3 +"');";
 				System.out.println(update);
