@@ -2,8 +2,6 @@
     pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
-<%@include file="timerAuction.jsp"%>
-<%@include file="readAlerts.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,16 +66,10 @@
 					out.println("You have entered in invalid credentials for the user, " + username + ". Please try again.");
 				}
 			} else {
-				checkAuctions();
-				
+				if (status.equals("login")){
+					
+				}
 				request.getSession().setAttribute("userName", username);
-                if(result.getString("account_type").equals("administrator")){
-                    response.sendRedirect("adminLogin.jsp");
-                }
-                if(result.getString("account_type").equals("representative")){
-                    response.sendRedirect("repLogin.jsp");
-                }
-                out.println(readAlerts(username));
 				out.println("Now logged in as " + result.getString("mem_name") + ".");
 				%>
 				
@@ -88,10 +80,6 @@
 				<form method="post" action="loginPage.jsp">
 				<input name="return" type="submit" value="return to login page"/>
 				</form>
-				
-				<form method="post" action="questions.jsp">
-                <input name="return" type="submit" value="view and ask questions"/>
-                </form>
 				
 				<form method="post" action="SearchFunction.jsp">
  					<input name="button_clicked" type="submit" value="Sort and search listings"/>
