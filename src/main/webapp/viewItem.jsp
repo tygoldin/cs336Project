@@ -164,6 +164,27 @@
 		out.println("Description: " + result.getString("description") + "<br />");
 		out.println("Seller: " + seller_name + "<br />");
 		out.println("Auction End: " + result.getString("endDate") + "<br />");
+		
+	    Statement stmt4 = con.createStatement();
+		ResultSet categoryResult = stmt4.executeQuery("SELECT * FROM category1 WHERE item_id = '" + item_id + "';");
+		while(categoryResult.next()){
+			out.println("Category: category1" + "<br/>");
+			out.println("field1: " + categoryResult.getString("field1") + "<br/>");
+			out.println("field2: " + categoryResult.getString("field2") + "<br/>");
+		}
+		categoryResult = stmt4.executeQuery("SELECT * FROM category2 WHERE item_id = '" + item_id + "';");
+		while(categoryResult.next()){
+			out.println("Category: category2" + "<br/>");
+			out.println("field1: " + categoryResult.getString("field1") + "<br/>");
+			out.println("field2: " + categoryResult.getString("field2") + "<br/>");
+		}
+		
+		categoryResult = stmt4.executeQuery("SELECT * FROM category3 WHERE item_id = '" + item_id + "';");
+		while(categoryResult.next()){
+			out.println("Category: category3" + "<br/>");
+			out.println("field1: " + categoryResult.getString("field1") + "<br/>");
+			out.println("field2: " + categoryResult.getString("field2") + "<br/>");
+		}
 		String bid_increment = result.getString("bid_increment");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
