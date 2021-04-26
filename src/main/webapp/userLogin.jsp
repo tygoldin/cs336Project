@@ -81,6 +81,14 @@
 				<input name="return" type="submit" value="return to login page"/>
 				</form>
 				
+				<form method="post" action="SearchFunction.jsp">
+ 					<input name="button_clicked" type="submit" value="Sort and search listings"/>
+ 				</form>
+				
+				<form method="post" action="BidHistory.jsp">
+					<input name="button_clicked" type="submit" value="More specific searches"/>
+				</form>
+				
 				<ul>
 				<%
 				
