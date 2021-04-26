@@ -27,7 +27,7 @@
 		Statement stmt = con.createStatement();
 
 		if (status.equals("Bid")){
-			ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids);");
+			ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids WHERE item_id = '" + item_id + "');");
 			String bid_price = "No bids yet";
 			String prev_name = "";
 			if(bidderResult.next()){
@@ -68,7 +68,7 @@
 								String set = "UPDATE bids SET max_bid = '"+max_bid+"' WHERE(mem_name = '"+username+"' and item_id = '"+item_id+"');";
 								int j = stmt.executeUpdate(set);
 								Double bidder_amount = Double.parseDouble(bid_amount) + Double.parseDouble(bid_increment);
-								ResultSet result2 = stmt.executeQuery("SELECT * FROM bids WHERE (mem_name != '"+username+"' and max_bid >= '"+bidder_amount+"');");
+								ResultSet result2 = stmt.executeQuery("SELECT * FROM bids WHERE (mem_name != '"+username+"' and max_bid >= '"+bidder_amount+"' and item_id = '"+ item_id + "');");
 								if (result2.next()){
 									String bidder_name = result2.getString("mem_name");
 									String bidder_max_bid = result2.getString("max_bid");
@@ -133,7 +133,7 @@
 							int a= stmt.executeUpdate(alert1);
 							Double bidder_amount = Double.parseDouble(bid_amount) + Double.parseDouble(bid_increment);
 							ResultSet result1 = stmt.executeQuery("SELECT * FROM bids WHERE (mem_name != '"+username+"' and max_bid >= '"
-								+ bidder_amount +"');");
+								+ bidder_amount +"' and item_id = '"+ item_id + "');");
 							if (result1.next()){
 								String bidder_name = result1.getString("mem_name");
 								String bidder_max_bid = result1.getString("max_bid");
