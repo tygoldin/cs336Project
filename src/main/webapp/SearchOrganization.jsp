@@ -28,108 +28,180 @@
 		<%
 	
 		String status = request.getParameter("button_clicked");
-		if (status.equals("Sort")) {
-			if (request.getParameter("maximum_price") != null) {
+			if (status.equals("Sort by maximum price")) {
 				ResultSet result = stmt.executeQuery("SELECT DISTINCT i.title, i.item_id, i.mem_name, b.max_bid FROM items i, bids b WHERE i.item_id = b.item_id"); 
 				while(result.next()) {
-					out.print(result.getString("i.title") + ", ");
-					out.print(result.getString("i.item_id") + ", ");
-					out.print(result.getString("i.mem_name") + ", ");
-					out.println(result.getString("b.max_bid"));
+					out.print(result.getString("title") + ", ");
+					out.print(result.getString("item_id") + ", ");
+					out.print(result.getString("mem_name") + ", ");
+					out.println(result.getString("max_bid"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-			if (request.getParameter("title") != null) {
-				ResultSet result = stmt.executeQuery("SELECT * FROM items GROUP BY title");
+			if (status.equals("Sort by title")) {
+				ResultSet result = stmt.executeQuery("SELECT * FROM items ORDER BY title");
 				while(result.next()) {
 					out.print(result.getString("items.item_id") + ", ");
 					out.print(result.getString("items.title") + ", ");
 					out.print(result.getString("items.mem_name") + ", ");
 					out.println(result.getString("items.description"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-			if (request.getParameter("user") != null) {
-				ResultSet result = stmt.executeQuery("SELECT * FROM items GROUP BY user");
+			if (status.equals("Sort by user")) {
+				ResultSet result = stmt.executeQuery("SELECT * FROM items ORDER BY mem_name");
 				while(result.next()) {
 					out.print(result.getString("items.item_id") + ", ");
 					out.print(result.getString("items.title") + ", ");
 					out.print(result.getString("items.mem_name") + ", ");
 					out.println(result.getString("items.description"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-			if (request.getParameter("category1") != null) {
+			if (status.equals("Sort through category 1")) {
 				ResultSet result = stmt.executeQuery("SELECT items.title, items.item_id, items.mem_name, category1.field1, category1.field2 FROM items INNER JOIN category1 ON (items.item_id = category1.item_id)");
 				while(result.next()) {
 					out.print(result.getString("items.item_id") + ", ");
 					out.print(result.getString("items.title") + ", ");
 					out.print(result.getString("category1.field1") + ", ");
 					out.println(result.getString("category1.field2"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-			if (request.getParameter("category2") != null) {
+			if (status.equals("Sort through category 2")) {
 				ResultSet result = stmt.executeQuery("SELECT items.title, items.item_id, items.mem_name, category2.field1, category2.field2 FROM items INNER JOIN category2 ON (items.item_id = category2.item_id)");
 				while(result.next()) {
 					out.print(result.getString("items.item_id") + ", ");
 					out.print(result.getString("items.title") + ", ");
 					out.print(result.getString("category2.field1") + ", ");
 					out.println(result.getString("category2.field2"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-			if (request.getParameter("category3") != null) {
+			if (status.equals("Sort through category 3")) {
 				ResultSet result = stmt.executeQuery("SELECT items.title, items.item_id, items.mem_name, category3.field1, category3.field2 FROM items INNER JOIN category3 ON (items.item_id = category3.item_id)");
 				while(result.next()) {
 					out.print(result.getString("items.item_id") + ", ");
 					out.print(result.getString("items.title") + ", ");
 					out.print(result.getString("category3.field1") + ", ");
 					out.println(result.getString("category3.field2"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-		}
-		else {
-			if (request.getParameter("title2") != null && request.getParameter("user2") != null && request.getParameter("item_id") != null) {
+			if (status.equals("Search by title")) {
 				String entry = request.getParameter("title2");
-				String entry2 = request.getParameter("user2");
-				String entry3 = request.getParameter("item_id");
-				ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.title LIKE '" + entry + "' AND items.user LIKE '" + entry2 + "' AND items.item_id LIKE '" + entry3 + "'");
+				ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.title LIKE '" + entry + "'");
 				while(result.next()) {
 					out.print(result.getString("items.item_id") + ", ");
 					out.print(result.getString("items.title") + ", ");
 					out.print(result.getString("items.mem_name") + ", ");
 					out.println(result.getString("items.description"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-			else {
-				if (request.getParameter("title2") != null) {
-					String entry = request.getParameter("title2");
-					ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.title LIKE '" + entry + "'");
-					while(result.next()) {
-						out.print(result.getString("items.item_id") + ", ");
-						out.print(result.getString("items.title") + ", ");
-						out.print(result.getString("items.mem_name") + ", ");
-						out.println(result.getString("items.description"));
-					}
-				}
-				if (request.getParameter("user2") != null) {
-					String entry = request.getParameter("user2");
-					ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.mem_name LIKE '" + entry + "'");
-					while(result.next()) {
-						out.print(result.getString("items.item_id") + ", ");
-						out.print(result.getString("items.title") + ", ");
-						out.print(result.getString("items.mem_name") + ", ");
-						out.println(result.getString("items.description"));
-					}
-				}
-				if (request.getParameter("user3") != null) {
-					String entry = request.getParameter("item_id");
-					ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.item_id LIKE '" + entry + "'");
-					while(result.next()) {
-						out.print(result.getString("items.item_id") + ", ");
-						out.print(result.getString("items.title") + ", ");
-						out.print(result.getString("items.mem_name") + ", ");
-						out.println(result.getString("items.description"));
-					}
+			if (status.equals("Search by user")) {
+				String entry = request.getParameter("user2");
+				ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.mem_name LIKE '" + entry + "'");
+				while(result.next()) {
+					out.print(result.getString("items.item_id") + ", ");
+					out.print(result.getString("items.title") + ", ");
+					out.print(result.getString("items.mem_name") + ", ");
+					out.println(result.getString("items.description"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
 				}
 			}
-		}
+			if (status.equals("Search by item id")) {
+				String entry = request.getParameter("item_id");
+				ResultSet result = stmt.executeQuery("SELECT * FROM items WHERE items.item_id LIKE '" + entry + "'");
+				while(result.next()) {
+					out.print(result.getString("items.item_id") + ", ");
+					out.print(result.getString("items.title") + ", ");
+					out.print(result.getString("items.mem_name") + ", ");
+					out.println(result.getString("items.description"));
+					String item_id = result.getString("item_id");
+					%>	
+						<form method="post" action="viewItem.jsp">
+							<input name="button_clicked" type="submit" value="View Item"/>
+							<input type="hidden" name="item_id" value=<%=item_id%> />
+						</form>
+					<%
+					%>
+					<br>
+					<%
+				}
+			}
 	%>
 	
 	<%
