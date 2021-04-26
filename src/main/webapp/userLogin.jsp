@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@include file="timerAuction.jsp"%>
+<%@include file="readAlerts.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,9 +68,8 @@
 					out.println("You have entered in invalid credentials for the user, " + username + ". Please try again.");
 				}
 			} else {
-				if (status.equals("login")){
-					
-				}
+				checkAuctions();
+				out.println(readAlerts(username));
 				request.getSession().setAttribute("userName", username);
 				out.println("Now logged in as " + result.getString("mem_name") + ".");
 				%>

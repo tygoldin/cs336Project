@@ -3,7 +3,7 @@
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*,java.text.SimpleDateFormat,java.util.Date" %>
 <%@include file="timerAuction.jsp"%>
-
+<%@include file="readAlerts.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,11 +19,13 @@
 	String status = request.getParameter("button_clicked");
 	
 	checkAuctions();
+	
+	out.println(readAlerts(username));
 	try{
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
 		Statement stmt = con.createStatement();
-		
+
 		if (status.equals("Bid")){
 			ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids);");
 			String bid_price = "No bids yet";

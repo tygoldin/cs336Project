@@ -35,10 +35,15 @@
 						Statement stmt3 = con.createStatement();
 						String update = "INSERT INTO buys(mem_name,item_id,price) VALUES ('"+ mem_name + "'," + item_id + ",'" + bid_amount + "');";
 						int i = stmt3.executeUpdate(update);
+						update = "INSERT INTO alerts(mem_name, alert_time, description) VALUES ('"+ mem_name+"','"+ new Timestamp(System.currentTimeMillis()) + "','"+ "You have won the auction for " + item_id + "');";
+						i = stmt3.executeUpdate(update);
+						
 					} else {
 						Statement stmt3 = con.createStatement();
 						String update = "INSERT INTO buys(mem_name,item_id,price) VALUES ('"+ result.getString("mem_name") + "'," + item_id + ", '0');";
 						int i = stmt3.executeUpdate(update);
+						update = "INSERT INTO alerts(mem_name, alert_time, description) VALUES ('"+ result.getString("mem_name") +"','"+ new Timestamp(System.currentTimeMillis()) + "','"+ "No one had bought your item: " + item_id + "');";
+						i = stmt3.executeUpdate(update);
 					}
 				}
 				
