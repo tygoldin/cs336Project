@@ -238,6 +238,11 @@
 	
 	%>
 	
+	<form method="post" action="itemAlert.jsp">
+		<label for="item_id">Item ID</label><br>
+		<input type="text" name="item_id" value="item_id">
+		<input name="button_clicked" type="submit" value="Set an alert for this item"/>
+	</form>
 	<form method="post" action="loginPage.jsp">
 		<input name="return" type="submit" value="return to login page"/>
 	</form>
