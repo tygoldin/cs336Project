@@ -20,13 +20,13 @@
 	<form method="post" action="BidHistoryFinder.jsp">
 		<label for="member_name">Member name:</label><br>
 		<input type="text" id="member_name" name="member_name"><br>
-		<input name="button_clicked" type="submit" value="Search_members"><br>
+		<input name="button_clicked" type="submit" value="Search members"><br>
 	</form>
 	<p>Provide the name of an item to see other items in the same category that have been auctioned recently.</p>
 	<form method="post" action="BidHistoryFinder.jsp">
 		<label for="item_name">Item name:</label><br>
 		<input type="text" id="item_name2" name="item_name2"><br>
-		<input name="button_clicked" type="submit" value="Search_items"><br>
+		<input name="button_clicked" type="submit" value="Search items"><br>
 	</form>
 	
 	<form method="post" action="userLogin.jsp">
