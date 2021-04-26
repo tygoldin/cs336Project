@@ -172,25 +172,26 @@
 			} else {
 				out.println("Current Bid: No bids yet" + "<br />");
 			}
+			if (username.equals(seller_name)){
+				out.println("You are currently listing this item.");
+			} else {
+				%>
+				
+				<form method="post" action="viewItem.jsp">
+					<input type="number" name="bid_amount" step="0.01">
+					<input name="button_clicked" type="submit" value="Bid"/>
+					<label for="max_bid">Max Bid:</label>
+					<input type="number" id="max_bid" name="max_bid"/>
+					<input type="hidden" name="item_id" value=<%=item_id%> />
+				</form>
+				
+				<%
+				out.println("Minimum Bid Increment: $" + bid_increment + "<br />");
+			}
 		}
 		
 		
-		if (username.equals(seller_name)){
-			out.println("You are currently listing this item.");
-		} else {
-			%>
-			
-			<form method="post" action="viewItem.jsp">
-				<input type="number" name="bid_amount" step="0.01">
-				<input name="button_clicked" type="submit" value="Bid"/>
-				<label for="max_bid">Max Bid:</label>
-				<input type="number" id="max_bid" name="max_bid"/>
-				<input type="hidden" name="item_id" value=<%=item_id%> />
-			</form>
-			
-			<%
-			out.println("Minimum Bid Increment: $" + bid_increment + "<br />");
-		}
+		
 		
 	} catch (Exception e){
 		out.println(e);	
