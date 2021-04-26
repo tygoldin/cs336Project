@@ -14,27 +14,34 @@
 		<form method="post" action="SearchOrganization.jsp">
 			<input type="radio" id="maximum_price" name="criteria" value="maximum_price">
 			<label for="maximum_price">Maximum Price</label><br>
+			<input name="button_clicked" type="submit" value="Sort by maximum price"><br>
 			<input type="radio" id="title" name="criteria" value="title">
 			<label for="title">Title</label><br>
+			<input name="button_clicked" type="submit" value="Sort by title"><br>
 			<input type="radio" id="user" name="criteria" value="user">
 			<label for="user">User</label><br>
+			<input name="button_clicked" type="submit" value="Sort by user"><br>
 			<input type="radio" id="category1" name="criteria" value="category1">
 			<label for="category1">Category 1</label><br>
+			<input name="button_clicked" type="submit" value="Sort through category 1"><br>
 			<input type="radio" id="category2" name="criteria" value="category2">
 			<label for="category2">Category 2</label><br>
+			<input name="button_clicked" type="submit" value="Sort through category 2"><br>
 			<input type="radio" id="category3" name="criteria" value="category3">
 			<label for="category3">Category 3</label><br>
-			<input name="button_clicked" type="submit" value="Sort">
+			<input name="button_clicked" type="submit" value="Sort through category 3"><br>
 		</form>
 		<p> If you want to do a more specific search for items, use one of the text boxes below. </p>
 		<form method="post" action="SearchOrganization.jsp">
 			<label for="title2">Title</label><br>
 			<input type="text" id="title2" name="title2"><br>
+			<input name="button_clicked" type="submit" value="Search by title"><br>
 			<label for="user">User</label><br>
 			<input type="text" id="user2" name="user2"><br>
-			<input name="button_clicked" type="submit" value="Search">
+			<input name="button_clicked" type="submit" value="Search by user"><br>
 			<label for="item_id">Item ID</label><br>
 			<input type="text" id="item_id" name="item_id"><br>
+			<input name="button_clicked" type="submit" value="Search by item id"><br>
 		</form>
 		
 		<form method="post" action="userLogin.jsp">
