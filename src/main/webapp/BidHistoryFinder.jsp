@@ -36,51 +36,75 @@
 				out.print(result.getString("i.title") + ", ");
 				out.print(result.getString("b.mem_name") + ", ");
 				out.println(result.getString("b.bid_amount"));
+				%>
+				<br>
+				<%
 			}
 		}
-		if (status.equals("Search_members")) {
+		if (status.equals("Search members")) {
 			String entry = request.getParameter("member_name");
 			ResultSet result = stmt.executeQuery("SELECT a.mem_name, a.item_id FROM auctions a WHERE a.mem_name = '" + entry + "'");
 			out.println("Seller");
+			%>
+			<br>
+			<%
 			while(result.next()) {
 				out.print(result.getString("a.mem_name") + ", ");
 				out.println(result.getString("a.item_id"));
+				%>
+				<br>
+				<%
 			}
-			ResultSet result2 = stmt2.executeQuery("SELECT DISTINCT b.mem_name, b.item_id FROM bids b WHERE b.mem_name = '" + entry + "'");
+			ResultSet result2 = stmt2.executeQuery("SELECT b.mem_name, b.item_id FROM bids b WHERE b.mem_name = '" + entry + "'");
 			out.println("Buyer");
-			while(result.next()) {
-				out.print(result.getString("b.mem_name") + ", ");
-				out.println(result.getString("b.item_id"));
+			%>
+			<br>
+			<%
+			while(result2.next()) {
+				out.print(result2.getString("b.mem_name") + ", ");
+				out.println(result2.getString("b.item_id"));
+				%>
+				<br>
+				<%
 			}
 		}
-		else {
+		if(status.equals("Search items")) {
 			String entry = request.getParameter("item_name2");
 			ResultSet result = stmt.executeQuery("SELECT DISTINCT i.item_id FROM items i WHERE i.title = '" + entry + "'");
 			String id = result.getString("i.item_id");
 			ResultSet result2 = stmt2.executeQuery("SELECT c1.item_id FROM category1 c1 WHERE c1.item_id = '" + id + "'");
-			if (result2 == null) {
+			if (result2.next() != true) {
 				result2 = stmt2.executeQuery("SELECT c2.item_id FROM category2 c2 WHERE c2.item_id = '" + id + "'");
-				if (result2 == null) {
+				if (result2.next() != true) {
 					result2 = stmt2.executeQuery("SELECT c3.item_id FROM category3 c3 WHERE c3.item_id = '" + id + "'");
 					ResultSet result3 = stmt.executeQuery("SELECT c3.item_id, i.title FROM category3 c3, items i, auctions a WHERE c3.item_id = i.item_id AND a.startDate > (SELECT MONTH(GETDATE()) - 1)");
-					while(result.next()) {
-						out.print(result.getString("c3.item_id") + ", ");
-						out.println(result.getString("i.title"));
+					while(result3.next()) {
+						out.print(result3.getString("c3.item_id") + ", ");
+						out.println(result3.getString("i.title"));
+						%>
+						<br>
+						<%
 					}
 				}
 				else {
 					ResultSet result3 = stmt.executeQuery("SELECT c2.item_id, i.title FROM category2 c2, items i, auctions a WHERE c2.item_id = i.item_id AND a.startDate > (SELECT MONTH(GETDATE()) - 1)");
-					while(result.next()) {
-						out.print(result.getString("c2.item_id") + ", ");
-						out.println(result.getString("i.title"));
+					while(result3.next()) {
+						out.print(result3.getString("c2.item_id") + ", ");
+						out.println(result3.getString("i.title"));
+						%>
+						<br>
+						<%
 					}
 				}
 			}
 			else{
 				ResultSet result3 = stmt.executeQuery("SELECT c1.item_id, i.title FROM category1 c1, items i, auctions a WHERE c1.item_id = i.item_id AND a.startDate > (SELECT MONTH(GETDATE()) - 1)");
-				while(result.next()) {
-					out.print(result.getString("c1.item_id") + ", ");
-					out.println(result.getString("i.title"));
+				while(result3.next()) {
+					out.print(result3.getString("c1.item_id") + ", ");
+					out.println(result3.getString("i.title"));
+					%>
+					<br>
+					<%
 				}
 			}
 		}
