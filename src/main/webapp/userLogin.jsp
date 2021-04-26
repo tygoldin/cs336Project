@@ -69,8 +69,15 @@
 				}
 			} else {
 				checkAuctions();
-				out.println(readAlerts(username));
+				
 				request.getSession().setAttribute("userName", username);
+                if(result.getString("account_type").equals("administrator")){
+                    response.sendRedirect("adminLogin.jsp");
+                }
+                if(result.getString("account_type").equals("representative")){
+                    response.sendRedirect("repLogin.jsp");
+                }
+                out.println(readAlerts(username));
 				out.println("Now logged in as " + result.getString("mem_name") + ".");
 				%>
 				
@@ -81,6 +88,10 @@
 				<form method="post" action="loginPage.jsp">
 				<input name="return" type="submit" value="return to login page"/>
 				</form>
+				
+				<form method="post" action="questions.jsp">
+                <input name="return" type="submit" value="view and ask questions"/>
+                </form>
 				
 				<form method="post" action="SearchFunction.jsp">
  					<input name="button_clicked" type="submit" value="Sort and search listings"/>
