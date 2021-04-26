@@ -29,8 +29,10 @@
 		if (status.equals("Bid")){
 			ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids);");
 			String bid_price = "No bids yet";
+			String prev_name = "";
 			if(bidderResult.next()){
 				bid_price = bidderResult.getString("bid_amount");
+				prev_name = bidderResult.getString("mem_name");
 			}
 			bidderResult.close();
 			ResultSet result = stmt.executeQuery("SELECT * FROM auctions a, items i WHERE a.item_id = '" + item_id + "' AND a.item_id = i.item_id;");
@@ -60,6 +62,9 @@
 										item_id + "','" + Double.parseDouble(request.getParameter("bid_amount")) + "','" + 
 										new Timestamp(System.currentTimeMillis()) + "');";
 								int i = stmt.executeUpdate(update);
+								String alert1 = "INSERT INTO alerts (mem_name,alert_time, description) VALUES ('"+prev_name+"','"+ new Timestamp(System.currentTimeMillis()) +
+										"','"+username+" has bid "+bid_amount+"');";
+								int a= stmt.executeUpdate(alert1);
 								String set = "UPDATE bids SET max_bid = '"+max_bid+"' WHERE(mem_name = '"+username+"' and item_id = '"+item_id+"');";
 								int j = stmt.executeUpdate(set);
 								Double bidder_amount = Double.parseDouble(bid_amount) + Double.parseDouble(bid_increment);
@@ -72,19 +77,26 @@
 												item_id + "','" + (Double.parseDouble(bidder_max_bid)+Double.parseDouble(bid_increment)) + "','" + 
 												new Timestamp(System.currentTimeMillis()) + "','"+Double.parseDouble(request.getParameter("max_bid"))+"');";
 										int k = stmt.executeUpdate(auto_bid);
+										String alert = "INSERT INTO alerts (mem_name,alert_time, description) VALUES ('"+bidder_name+"','"+ new Timestamp(System.currentTimeMillis()+1000) +
+												"','"+username+" has bid "+(Double.parseDouble(bidder_max_bid)+Double.parseDouble(bid_increment))+"');";
+										int l = stmt.executeUpdate(alert);
 										
 									}else if ((Double.parseDouble(request.getParameter("max_bid")) + Double.parseDouble(bid_increment)) <= Double.parseDouble(bidder_max_bid)){
 										String auto_bid = "INSERT INTO bids (mem_name, item_id, bid_amount, time, max_bid) VALUES ('" +bidder_name+ "','" + 
 												item_id + "','" + (Double.parseDouble(request.getParameter("max_bid"))+Double.parseDouble(bid_increment)) + "','" + 
 												new Timestamp(System.currentTimeMillis()) + "','"+Double.parseDouble(bidder_max_bid)+"');";
 										int k = stmt.executeUpdate(auto_bid);
-										out.println("You got Out Bid. <br />");
+										String alert = "INSERT INTO alerts (mem_name,alert_time, description) VALUES ('"+username+"','"+ new Timestamp(System.currentTimeMillis()) +
+												"','"+bidder_name+" has bid "+(Double.parseDouble(request.getParameter("max_bid"))+Double.parseDouble(bid_increment))+".');";
+										int l = stmt.executeUpdate(alert);
 									}else{
 										String auto_bid = "INSERT INTO bids (mem_name, item_id, bid_amount, time, max_bid) VALUES ('" +bidder_name+ "','" + 
 												item_id + "','" + (Double.parseDouble(bidder_max_bid)) + "','" + 
 												new Timestamp(System.currentTimeMillis()) + "','"+Double.parseDouble(bidder_max_bid)+"');";
 										int k = stmt.executeUpdate(auto_bid);
-										out.println("You got Out Bid. <br />");
+										String alert = "INSERT INTO alerts (mem_name,alert_time, description) VALUES ('"+username+"','"+ new Timestamp(System.currentTimeMillis()) +
+												"','"+bidder_name+" has bid "+(Double.parseDouble(bidder_max_bid))+".');";
+										int l = stmt.executeUpdate(alert);
 										}
 									}
 								
@@ -116,6 +128,9 @@
 								item_id + "','" + Double.parseDouble(request.getParameter("bid_amount")) + "','" + 
 								new Timestamp(System.currentTimeMillis()) + "');";
 							int i = stmt.executeUpdate(update);
+							String alert1 = "INSERT INTO alerts (mem_name,alert_time, description) VALUES ('"+prev_name+"','"+ new Timestamp(System.currentTimeMillis()) +
+									"','"+username+" has bid "+bid_amount+"');";
+							int a= stmt.executeUpdate(alert1);
 							Double bidder_amount = Double.parseDouble(bid_amount) + Double.parseDouble(bid_increment);
 							ResultSet result1 = stmt.executeQuery("SELECT * FROM bids WHERE (mem_name != '"+username+"' and max_bid >= '"
 								+ bidder_amount +"');");
@@ -126,6 +141,9 @@
 										item_id + "','" + bidder_amount + "','" + 
 										new Timestamp(System.currentTimeMillis()) + "','"+Double.parseDouble(bidder_max_bid)+"');";
 								int j = stmt.executeUpdate(auto_bid);
+								String alert = "INSERT INTO alerts (mem_name,alert_time, description) VALUES ('"+username+"','"+ new Timestamp(System.currentTimeMillis()) +
+										"','"+bidder_name+" has bid "+bidder_amount+"');";
+								int l = stmt.executeUpdate(alert);
 							}
 							out.println("Bid $" + bid_amount + "<br />");
 						} else {
@@ -163,8 +181,8 @@
 			}
 			
 		} else {
-			
-			ResultSet bidderResult = stmt.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids);");
+			Statement stmt3 = con.createStatement();
+			ResultSet bidderResult = stmt3.executeQuery("SELECT * FROM bids WHERE item_id = '" + item_id + "' AND bid_amount = (SELECT MAX(bid_amount) FROM bids WHERE item_id = '" + item_id + "');");
 			if(bidderResult.next()){
 				String bid_price = bidderResult.getString("bid_amount");
 				out.println("Current Bid: $" + bid_price + " ");
