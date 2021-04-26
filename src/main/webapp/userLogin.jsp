@@ -126,6 +126,15 @@
 				<%
 			}
 			
+			ResultSet result2 = stmt.executeQuery("SELECT items.item_id FROM items WHERE items.alert = TRUE AND (SELECT auctions.item_id FROM auctions WHERE auctions.item_id = items.item_id)");
+			while(result2.next()) {
+				out.println("The item you want is on auction!");
+				%>
+				<br>
+				<%
+			}
+			
+			
 			
 			
 		}
